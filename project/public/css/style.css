@@ -1,0 +1,94 @@
+body {
+   background-repeat:no-repeat;
+   background-color: black;
+}
+
+.column {
+	float: left;
+	width: 50%;
+	padding: 5px;
+}
+
+.row::after {
+	content: "";
+	clear: both;
+	display: table;
+}
+
+#playerPic {
+	width: 20%;
+}
+
+#dmPic {
+	width: 36%;
+}
+
+#d20Wrapper {
+  position: relative;
+}
+
+#d20 {
+    width: 15%;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+.navBar {
+   list-style-type:none;
+   margin:0;
+   padding:0;
+   overflow:hidden;
+   background-color:#505050;
+}
+
+li a {
+   float:left;
+   display:block;
+   color:#1793d0;
+   text-align:center;
+   padding:1em 1em;
+   text-decoration:none;
+}
+
+li a:hover {
+   background-color:#1793d0;
+   color:white;
+}
+
+h1 {
+   position: absolute;
+   top: 50px;
+   left: 5px;
+   color:#1793d0;
+}
+
+h2 {
+   color:#1793d0;
+}
+
+p {
+   color:#1793d0;
+   padding: 3em 1em;
+}
+
+h3 {
+   color:red;
+}
+
+.generalText {
+   color:#1793d0;
+}
+
+a {
+   color:white;
+}
+
+.buttons {
+   border-radius:12px;
+}
+
+.qna {
+   color:#1793d0;
+   width 700px;
+   height: 200px;
+}
