@@ -1,1 +1,35 @@
 <h1>Players</h1>
+<body>
+	<button type="button" onclick="document.getElementById('charSearch').style.display='block'">Find Character</button>
+	<button type="button" onclick="document.getElementById('charCreate').style.display='block'">Make Character</button>
+	<button type="button" onclick="document.getElementById('gameSearch').style.display='block'">Find Game</button>
+	<div id="playerForm">
+		<form id="charSearch" style="display:none">
+			First Name:<br>
+			<input type="text" name="firstname"><br>
+			Last Name:<br>
+			<input type="text" name="lastname">
+		</form>	
+		<form id="charCreate" style="display:none">
+			First Name:<br>
+			<input type="text" name="firstname"><br>
+			Last Name:<br>
+			<input type="text" name="lastname"><br>
+			Game:<br>
+			<input list="games">
+			<datalist id="games">
+				<option value="Azeroth">
+				<option value="Arrakis">
+				<option value="Tamriel">
+				<option value="Narnia">
+				<option value="etc...">
+			</datalist><br>
+			Class:<br>
+			<input type="text" name="class">
+		</form>
+		<form> id="gameSearch" style="display:none">
+		Game Name:<br>
+		<input type="text" name="gameName">
+		</form>
+	</div>
+</body>
