@@ -1,1 +1,51 @@
 <h1>DungeonMasters</h1>
+<h2>Search, Create, Delete or Update Dungeon Masters and Their Games</h2>
+<body>
+	<button type="button" onclick="getForm('dmSearch')">Find Dungeon Master</button>
+	<button type="button" onclick="getForm('dmCreate')">Make Dungeon Master</button>
+	<button type="button" onclick="getForm('gameSearch')">Find Game</button>
+	<button type="button" onclick="getForm('gameCreate')">Make Game</button>
+	<div id="playerForm">
+		<form action="" id="dmSearch" style="display:none">
+			First Name:<br>
+			<input type="text" name="firstname"><br>
+			Last Name:<br>
+			<input type="text" name="lastname"><br>
+			<input type="submit" value="Search">
+		</form>	
+		<form action="" id="dmCreate" style="display:none">
+			First Name:<br>
+			<input type="text" name="firstname"><br>
+			Last Name:<br>
+			<input type="text" name="lastname"><br>
+			Experience:<br>
+			<input type="text" name="experience"><br>
+			Email:<br>
+			<input type="text" name="email"><br>
+			<input type="submit" value="Create">
+		</form>
+		<form action="" id="gameSearch" style="display:none">
+			Game Name:<br>
+			<input type="text" name="gameName">
+			<input type="submit" value="Search">
+		</form>
+		<form action="" id="gameCreate" style="display:none">
+			Game Name:<br>
+			<input type="text" name="gameName"><br>
+			Dungeon Master:<br>
+			<input types="text" name="gameDM"><br>
+			Number of Players:<br>
+			<input types="text" name="numPlayers"><br>
+			<input type="submit" value="Create">
+		</form>
+	</div>
+	<script>
+		function getForm(form){
+			document.getElementById('dmSearch').style.display='none';
+			document.getElementById('dmCreate').style.display='none';
+			document.getElementById('gameSearch').style.display='none';
+			document.getElementById('gameCreate').style.display='none';
+			document.getElementById(form).style.display='block';
+		}
+	</script>
+</body>

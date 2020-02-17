@@ -1,16 +1,18 @@
 <h1>Players</h1>
+<h2>Search, Create, Delete or Update Players</h2>
 <body>
-	<button type="button" onclick="document.getElementById('charSearch').style.display='block'">Find Character</button>
-	<button type="button" onclick="document.getElementById('charCreate').style.display='block'">Make Character</button>
-	<button type="button" onclick="document.getElementById('gameSearch').style.display='block'">Find Game</button>
+	<button type="button" onclick="getForm('charSearch')">Find Character</button>
+	<button type="button" onclick="getForm('charCreate')">Make Character</button>
+	<button type="button" onclick="getForm('gameSearch')">Find Game</button>
 	<div id="playerForm">
-		<form id="charSearch" style="display:none">
+		<form action="" id="charSearch" mehtod="" style="display:none">
 			First Name:<br>
 			<input type="text" name="firstname"><br>
 			Last Name:<br>
-			<input type="text" name="lastname">
+			<input type="text" name="lastname"><br>
+			<input type="button" value="Search" onclick="">
 		</form>	
-		<form id="charCreate" style="display:none">
+		<form action="" id="charCreate" style="display:none">
 			First Name:<br>
 			<input type="text" name="firstname"><br>
 			Last Name:<br>
@@ -25,11 +27,21 @@
 				<option value="etc...">
 			</datalist><br>
 			Class:<br>
-			<input type="text" name="class">
+			<input type="text" name="class"><br>
+			<input type="submit" value="Create">
 		</form>
-		<form> id="gameSearch" style="display:none">
-		Game Name:<br>
-		<input type="text" name="gameName">
+		<form action="" id="gameSearch" style="display:none">
+			Game Name:<br>
+			<input type="text" name="gameName">
+			<input type="submit" value="Search">
 		</form>
 	</div>
+	<script>
+		function getForm(form){
+			document.getElementById('charSearch').style.display='none';
+			document.getElementById('charCreate').style.display='none';
+			document.getElementById('gameSearch').style.display='none';
+			document.getElementById(form).style.display='block';
+		}
+	</script>
 </body>
