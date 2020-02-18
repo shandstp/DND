@@ -1,0 +1,30 @@
+<h1>Items</h1>
+<h2>Search, Create, Delete or Update Items</h2>
+<body>
+	<button type="button" onclick="getForm('itemSearch')">Find Item</button>
+	<button type="button" onclick="getForm('itemCreate')">Make Item</button>
+	<div id="playerForm">
+		<form action="" id="itemSearch" mehtod="" style="display:none">
+			Item Name:<br>
+			<input type="text" name="itemName"><br>
+			<input type="button" value="Search" onclick="">
+		</form>	
+		<form action="" id="itemCreate" style="display:none">
+			Item Name:<br>
+			<input type="text" name="itemName"><br>
+			Effect:<br>
+			<input type="text" name="effect"><br>
+			Type:<br>
+			<input type="text" name="type"><br>
+			Cost:<br>
+			<input type="text" name="cost"><br>
+		</form>
+	</div>
+	<script>
+		function getForm(form){
+			document.getElementById('itemSearch').style.display='none';
+			document.getElementById('itemCreate').style.display='none';
+			document.getElementById(form).style.display='block';
+		}
+	</script>
+</body>
