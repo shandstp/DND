@@ -1,5 +1,15 @@
 <h1>Players</h1>
 <h2>Search, Create, Delete or Update Players</h2>
+<head>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+        }
+    </style>
+</head>
 <body>
 	<button type="button" onclick="getForm('charSearch')">Find Character</button>
 	<button type="button" onclick="getForm('charCreate')">Make Character</button>
@@ -10,7 +20,7 @@
 			<input type="text" name="firstname"><br>
 			Last Name:<br>
 			<input type="text" name="lastname"><br>
-			<input type="submit" value="submit">
+			<button type="button" onclick="getForm('submitChar')">Submit</button>
 		</form>
 		<form action="" id="charCreate" style="display:none">
 			First Name:<br>
@@ -35,6 +45,47 @@
 			<input type="text" name="gameName">
 			<input type="submit" value="Search">
 		</form>
+		<form action="" id="submitChar" style="display:none">
+		<table>
+		    <tr>
+		        <th>First Name</th>
+		        <th>Last Name</th>
+		        <th>Playable</th>
+		        <th>gameId</th>
+		        <th>Class</th>
+		        <th>SpouseId</th>
+		        <th>Hitpoints</th>
+		        <th>Modify</th>
+		        <th>Delete</th>
+		    </tr>
+		    <tr>
+		        <th>Eldar</th>
+		        <th>Bolden</th>
+		        <th>True</th>
+		        <th>1</th>
+		        <th>Fighter</th>
+		        <th>Null</th>
+		        <th>15</th>
+	            <th><button type="button" onclick="getForm('modify')">Modify Char</button></th>
+	            <th><button type="button" onclick="getForm('delete')">Delete Char</button></th>
+		    </tr>
+		    <tr>
+		        <th>Steja</th>
+		        <th>Falhorn</th>
+		        <th>False</th>
+		        <th>1</th>
+		        <th>Wizard</th>
+		        <th>Null</th>
+		        <th>11</th>
+	            <th><button type="button" onclick="getForm('modify')">Modify Char</button></th>
+	            <th><button type="button" onclick="getForm('delete')">Delete Char</button></th>
+		    </tr>
+		</table>
+		</form>
+	    <form action="" id="modify" style="display:none">
+	    </form>
+	    <form action="" id="delete" style="display:none">
+	    </form>
 	</div>
 	<script>
 		function getForm(form){
