@@ -1,5 +1,15 @@
 <h1>DungeonMasters</h1>
 <h2>Search, Create, Delete or Update Dungeon Masters and Their Games</h2>
+<head>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+        }
+    </style>
+</head>
 <body>
 	<button type="button" onclick="getForm('dmSearch')">Find Dungeon Master</button>
 	<button type="button" onclick="getForm('dmCreate')">Make Dungeon Master</button>
@@ -11,7 +21,7 @@
 			<input type="text" name="firstname"><br>
 			Last Name:<br>
 			<input type="text" name="lastname"><br>
-			<input type="submit" value="Search">
+			<button type="button" onclick="getForm('submitDM')">Submit</button>
 		</form>	
 		<form action="" id="dmCreate" style="display:none">
 			First Name:<br>
@@ -27,7 +37,7 @@
 		<form action="" id="gameSearch" style="display:none">
 			Game Name:<br>
 			<input type="text" name="gameName">
-			<input type="submit" value="Search">
+			<button type="button" onclick="getForm('submitGame')">Submit</button>
 		</form>
 		<form action="" id="gameCreate" style="display:none">
 			Game Name:<br>
@@ -38,6 +48,69 @@
 			<input types="text" name="numPlayers"><br>
 			<input type="submit" value="Create">
 		</form>
+	    <form action="" id="submitDM" style="display:none">
+	    	<table>
+		    <tr>
+		        <th>DMID</th>
+		        <th>First Name</th>
+		        <th>Last Name</th>
+		        <th>Experience</th>
+		        <th>Email</th>
+		        <th>Modify</th>
+		        <th>Delete</th>
+		    </tr>
+		    <tr>
+		        <th>1</th>
+		        <th>Brian</th>
+		        <th>Cross</th>
+		        <th>2</th>
+		        <th>hi@gmail.com</th>
+	            <th><button type="button" onclick="getForm('modify')">Modify DM</button></th>
+	            <th><button type="button" onclick="getForm('delete')">Delete DM</button></th>
+		    </tr>
+		    <tr>
+		        <th>2</th>
+		        <th>Travis</th>
+		        <th>Shands</th>
+		        <th>3</th>
+		        <th>hello@gmail.com</th>
+	            <th><button type="button" onclick="getForm('modify')">Modify DM</button></th>
+	            <th><button type="button" onclick="getForm('delete')">Delete DM</button></th>
+		    </tr>
+		</table>
+	    </form>
+	    <form action="" id="submitGame" style="display:none">
+	    	<table>
+		    <tr>
+		        <th>GameId</th>
+		        <th>Name</th>
+		        <th>DM ID</th>
+		        <th>Player Number</th>
+		        <th>Modify</th>
+		        <th>Delete</th>
+		    </tr>
+		    <tr>
+		        <th>1</th>
+		        <th>Haren</th>
+		        <th>1</th>
+		        <th>2</th>
+	            <th><button type="button" onclick="getForm('modify')">Modify Game</button></th>
+	            <th><button type="button" onclick="getForm('delete')">Delete Game</button></th>
+		    </tr>
+		    <tr>
+		        <th>2</th>
+		        <th>Larog</th>
+		        <th>2</th>
+		        <th>0</th>
+	            <th><button type="button" onclick="getForm('modify')">Modify Game</button></th>
+	            <th><button type="button" onclick="getForm('delete')">Delete Game</button></th>
+		    </tr>
+		</table>
+	    </form>
+	    <form action="" id="modify" style="display:none">
+	    </form>
+	    <form action="" id="delete" style="display:none">
+	    </form>
 	</div>
 	<script>
 		function getForm(form){

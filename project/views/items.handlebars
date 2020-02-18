@@ -1,5 +1,15 @@
 <h1>Items</h1>
 <h2>Search, Create, Delete or Update Items</h2>
+<head>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+        }
+    </style>
+</head>
 <body>
 	<button type="button" onclick="getForm('itemSearch')">Find Item</button>
 	<button type="button" onclick="getForm('itemCreate')">Make Item</button>
@@ -7,7 +17,7 @@
 		<form action="" id="itemSearch" mehtod="" style="display:none">
 			Item Name:<br>
 			<input type="text" name="itemName"><br>
-			<input type="button" value="Search" onclick="">
+			<button type="button" value="Search" onclick="getForm('submitItem')">Submit</button>
 		</form>
 		<form action="" id="itemCreate" style="display:none">
 			Item Name:<br>
@@ -19,6 +29,41 @@
 			Cost:<br>
 			<input type="text" name="cost"><br>
 		</form>
+	    <form action="" id="submitItem" style="display:none">
+	    	<table>
+		    <tr>
+		        <th>ItemId</th>
+		        <th>Name</th>
+		        <th>Effect</th>
+		        <th>Type</th>
+		        <th>Cost</th>
+		        <th>Modify</th>
+		        <th>Delete</th>
+		    </tr>
+		    <tr>
+		        <th>1</th>
+		        <th>Shield</th>
+		        <th>Null</th>
+		        <th>Weapon</th>
+		        <th>2</th>
+	            <th><button type="button" onclick="getForm('modify')">Modify Item</button></th>
+	            <th><button type="button" onclick="getForm('delete')">Delete Item</button></th>
+		    </tr>
+		    <tr>
+		        <th>2</th>
+		        <th>Sword</th>
+		        <th>Null</th>
+		        <th>Weapon</th>
+		        <th>5</th>
+	            <th><button type="button" onclick="getForm('modify')">Modify Item</button></th>
+	            <th><button type="button" onclick="getForm('delete')">Delete Item</button></th>
+		    </tr>
+		</table>
+	    </form>
+	    <form action="" id="modify" style="display:none">
+	    </form>
+	    <form action="" id="delete" style="display:none">
+	    </form>
 	</div>
 	<script>
 		function getForm(form){
