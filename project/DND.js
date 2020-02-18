@@ -32,6 +32,13 @@ app.get('/DungeonMasters', function(req,res){
    return;
 });
 
+app.get('/charSheet', function(req,res){
+  res.render('charSheet', {
+    firstname: "firstname",
+    lastname: "lastname"
+  });
+});
+
 app.get('/Items', function(req, res){
   var context = {};
   res.render('items', context);
