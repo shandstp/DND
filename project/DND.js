@@ -32,6 +32,12 @@ app.get('/DungeonMasters', function(req,res){
    return;
 });
 
+app.get('/Items', function(req, res){
+  var context = {};
+  res.render('dms', context);
+  return;
+})
+
 app.use(function(req,res){
    res.status(404);
    res.render('404');
