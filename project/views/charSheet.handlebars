@@ -1,7 +1,5 @@
 <h1>Players Found</h1>
-<h2>{Firstname Lastname</h2>
 <head>
-    <title>Span Multiple Columns in an HTML Table</title>
     <style>
         table, th, td {
             border: 1px solid black;
@@ -21,6 +19,8 @@
 	        <th>Class</th>
 	        <th>SpouseId</th>
 	        <th>Hitpoints</th>
+	        <th>Modify</th>
+	        <th>Delete</th>
 	    </tr>
 	    <tr>
 	        <th>Eldar</th>
@@ -30,6 +30,8 @@
 	        <th>Fighter</th>
 	        <th>Null</th>
 	        <th>15</th>
+            <th><button type="button" onclick="getForm('modify')">Modify Char</button></th>
+            <th><button type="button" onclick="getForm('delete')">Delete Char</button></th>
 	    </tr>
 	    <tr>
 	        <th>Steja</th>
@@ -39,6 +41,12 @@
 	        <th>Wizard</th>
 	        <th>Null</th>
 	        <th>11</th>
+            <th><button type="button" onclick="getForm('modify')">Modify Char</button></th>
+            <th><button type="button" onclick="getForm('delete')">Delete Char</button></th>
 	    </tr>
 	</table>
+    <form action="" id="modify" style="display:none">
+    </form>
+    <form action="" id="delete" style="display:none">
+    </form>
 </body>
