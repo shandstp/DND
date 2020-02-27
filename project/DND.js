@@ -3,16 +3,29 @@ var express = require('express');
 var app = express();
 var handlebars = require('express-handlebars').create({defaultLayout:'main'});
 var bodyParser = require('body-parser');
+var mysql = require('./dbcon.js');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('public'));
 app.use(express.static('views/images'));
 
 app.engine('handlebars', handlebars.engine);
+app.set('mysql', mysql)
 app.set('view engine', 'handlebars');
 app.set('port', 7017);
 
 var context = {};
+
+function getPlayers(res, mysql, context, complete){
+  mysql.pool.query("SELECT firstName, lastName, Games.name AS game, playableChar AS playable, class, hitpointVal AS 'hit  points' FROM Humanoids INNER JOIN Games On Humanoids.gameID = Games.gameID", function(error, result, fields){
+    if(error){
+      res.write(JSON.stringify(error));
+      res.end();
+    }
+    context.player = result;
+    complete();
+  });
+}
 
 app.get('/', function(req,res){
    var context = {};
@@ -21,8 +34,15 @@ app.get('/', function(req,res){
 });
 
 app.get('/Players', function(req,res){
+   console.log("hello");
    var context = {};
+   console.log("there");
+   // var mysql = req.app.get('mysql');
+   console.log("meh");
+   // getPlayers(res, mysql, context, complete);
+   console.log("test");
    res.render('players', context);
+   console.log("idunno");
    return;
 });
 
@@ -33,10 +53,9 @@ app.get('/DungeonMasters', function(req,res){
 });
 
 app.get('/charSheet', function(req,res){
-  res.render('charSheet', {
-    firstname: "firstname",
-    lastname: "lastname"
-  });
+  var context = {};
+  res.render('charSheet', context);
+  return;
 });
 
 app.get('/Items', function(req, res){
