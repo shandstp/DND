@@ -12,7 +12,7 @@ app.use(express.static('views/images'));
 app.engine('handlebars', handlebars.engine);
 app.set('mysql', mysql)
 app.set('view engine', 'handlebars');
-app.set('port', 7017);
+app.set('port', 7701);
 
 var context = {};
 
@@ -23,6 +23,7 @@ function getPlayers(res, mysql, context, complete){
       res.end();
     }
     context.player = result;
+    console.log(result);
     complete();
   });
 }
@@ -33,15 +34,22 @@ app.get('/', function(req,res){
    return;
 });
 
-app.get('/Players', function(req,res){
+app.use('/Players', function(req,res){
+   var callbackCount = 0;
    console.log("hello");
    var context = {};
    console.log("there");
-   // var mysql = req.app.get('mysql');
+   var mysql = req.app.get('mysql');
    console.log("meh");
-   // getPlayers(res, mysql, context, complete);
+   getPlayers(res, mysql, context, complete);
    console.log("test");
-   res.render('players', context);
+   function complete(){
+      callbackCount++;
+         if(callbackCount >= 1){
+            res.render('players', context);
+         }
+
+   }
    console.log("idunno");
    return;
 });
