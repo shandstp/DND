@@ -17,13 +17,37 @@ app.set('port', 7701);
 var context = {};
 
 function getPlayers(res, mysql, context, complete){
-  mysql.pool.query("SELECT firstName, lastName, Games.name AS game, playableChar AS playable, class, hitpointVal AS 'hit  points' FROM Humanoids INNER JOIN Games On Humanoids.gameID = Games.gameID", function(error, result, fields){
+  mysql.pool.query("SELECT firstName, lastName, playableChar AS playable, Games.name AS game, class, SpouseId, hitpointVal, humanoidID FROM Humanoids INNER JOIN Games On Humanoids.gameID = Games.gameID", function(error, result, fields){
     if(error){
       res.write(JSON.stringify(error));
       res.end();
     }
     context.player = result;
-    console.log(result);
+    // console.log(result);
+    complete();
+  });
+}
+
+function getDMs(res, mysql, context, complete){
+  mysql.pool.query("SELECT firstName, lastName, experience, Games.name AS gameName, playerNum, email, DMID FROM DungeonMasters LEFT JOIN Games ON DMID = dungeonMasterID", function(error, result, fields){
+    if(error){
+      res.write(JSON.stringify(error));
+      res.end();
+    }
+    context.DM = result;
+    // console.log(result);
+    complete();
+  });
+}
+
+function getItems(res, mysql, context, complete){
+  mysql.pool.query("SELECT name, effect, type, cost, itemID FROM Items", function(error, result, fields){
+    if(error){
+      res.write(JSON.stringify(error));
+      res.end();
+    }
+    context.Item = result;
+    // console.log(result);
     complete();
   });
 }
@@ -36,27 +60,29 @@ app.get('/', function(req,res){
 
 app.use('/Players', function(req,res){
    var callbackCount = 0;
-   console.log("hello");
    var context = {};
-   console.log("there");
    var mysql = req.app.get('mysql');
-   console.log("meh");
    getPlayers(res, mysql, context, complete);
-   console.log("test");
    function complete(){
       callbackCount++;
          if(callbackCount >= 1){
             res.render('players', context);
          }
-
    }
-   console.log("idunno");
    return;
 });
 
-app.get('/DungeonMasters', function(req,res){
+app.use('/DungeonMasters', function(req,res){
+   var callbackCount = 0;
    var context = {};
-   res.render('dms', context);
+   var mysql = req.app.get('mysql');
+   getDMs(res, mysql, context, complete);
+   function complete(){
+     callbackCount++;
+      if(callbackCount >= 1){
+        res.render('dms', context);
+      }
+   }
    return;
 });
 
@@ -66,9 +92,17 @@ app.get('/charSheet', function(req,res){
   return;
 });
 
-app.get('/Items', function(req, res){
+app.use('/Items', function(req, res){
+  var callbackCount = 0;
   var context = {};
-  res.render('items', context);
+  var mysql = req.app.get('mysql');
+  getItems(res, mysql, context, complete);
+  function complete(){
+    callbackCount++;
+    if(callbackCount >= 1){
+      res.render('items', context);
+    }
+  }
   return;
 });
 

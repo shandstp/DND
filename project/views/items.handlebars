@@ -11,66 +11,42 @@
     </style>
 </head>
 <body>
-	<button type="button" onclick="getForm('itemSearch')">Find Item</button>
-	<button type="button" onclick="getForm('itemCreate')">Make Item</button>
-	<div id="playerForm">
-		<form action="" id="itemSearch" mehtod="" style="display:none">
-			Item Name:<br>
-			<input type="text" name="itemName"><br>
-			<button type="button" value="Search" onclick="getForm('submitItem')">Submit</button>
-		</form>
-		<form action="" id="itemCreate" style="display:none">
-			Item Name:<br>
-			<input type="text" name="itemName"><br>
-			Effect:<br>
-			<input type="text" name="effect"><br>
-			Type:<br>
-			<input type="text" name="type"><br>
-			Cost:<br>
-			<input type="text" name="cost"><br>
-		</form>
-	    <form action="" id="submitItem" style="display:none">
-	    	<table>
-		    <tr>
-		        <th>ItemId</th>
-		        <th>Name</th>
-		        <th>Effect</th>
-		        <th>Type</th>
-		        <th>Cost</th>
-		        <th>Modify</th>
-		        <th>Delete</th>
-		    </tr>
-		    <tr>
-		        <th>1</th>
-		        <th>Shield</th>
-		        <th>Null</th>
-		        <th>Weapon</th>
-		        <th>2</th>
-	            <th><button type="button" onclick="getForm('modify')">Modify Item</button></th>
-	            <th><button type="button" onclick="getForm('delete')">Delete Item</button></th>
-		    </tr>
-		    <tr>
-		        <th>2</th>
-		        <th>Sword</th>
-		        <th>Null</th>
-		        <th>Weapon</th>
-		        <th>5</th>
-	            <th><button type="button" onclick="getForm('modify')">Modify Item</button></th>
-	            <th><button type="button" onclick="getForm('delete')">Delete Item</button></th>
-		    </tr>
-		</table>
-	    </form>
-	    <form action="" id="modify" style="display:none">
-	    </form>
-	    <form action="" id="delete" style="display:none">
-	    </form>
-	</div>
-	<script>
-		function getForm(form){
-			document.getElementById('itemSearch').style.display='none';
-			document.getElementById('itemCreate').style.display='none';
-			document.getElementById('submitItem').style.display='none';
-			document.getElementById(form).style.display='block';
-		}
-	</script>
+  <form action="" id="filterByEffect">
+		<input type="text" placeholder="Example: stabbing" name="itemEffect">
+		<input type="submit" value="Filter By Effect">
+	</form><br>
+
+  <form action="" id="itemCreate">
+    <input type="text" placeholder="Name" name="itemName">
+    <input type="text" placeholder="Effect" name="itemEffect">
+    <input type="text" placeholder="Type" name="itemType">
+    <input type="text" placeholder="Cost" name="itemCost">
+    <input type="submit" value="Create Item">
+  </form>
+
+	<form action="" id="submitItem">
+	<table>
+	    <thead>
+	        <th>Item Name</th>
+	        <th>Item Effect</th>
+	        <th>Item Type</th>
+          <th>Item Cost</th>
+	    </thead>
+      <tbody>
+        {{#each Item}}
+        <tr>
+          <td>{{name}}</td>
+          {{#if effect}}
+            <td>{{effect}}</td>
+          {{else}}
+            <td>None</td>
+          {{/if}}
+          <td>{{type}}</td>
+          <td>{{cost}}</td>
+          <th><button type="button" onclick="getForm('modify')">Modify Item</button></th>
+          <th><button type="button" onclick="getForm('delete')">Delete Item</button></th>
+        </tr>
+        {{/each}}
+      </tbody>
+	</table>
 </body>
