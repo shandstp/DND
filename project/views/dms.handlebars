@@ -11,11 +11,12 @@
     </style>
 </head>
 <body>
-  <form action="" id="filterByGame">
-		<input type="text" placeholder="Example: Azeroth" name="gameName">
-		<input type="submit" value="Filter By Game">
+  <form action="" id="filterByName">
+		<input type="text" placeholder="Example: Joe" name="dmName">
+		<input type="submit" value="Filter By First Name">
 	</form><br>
 
+  <form action="/DungeonMasters" method="post" id="DMCreate">
   <form action="" id="dmCreate">
     <input type="text" placeholder="First Name" name="firstname">
     <input type="text" placeholder="Last Name" name="lastname">
@@ -40,13 +41,6 @@
           <td>{{firstName}}</td>
           <td>{{lastName}}</td>
           <td>{{experience}}</td>
-          {{#if gameName}}
-            <td>{{gameName}}</td>
-            <td>{{playerNum}}</td>
-          {{else}}
-            <td>None</td>
-            <td>N/A</td>
-          {{/if}}
           <td>{{email}}</td>
           <th><button type="button" onclick="getForm('modify')">Modify DM</button></th>
           <th><button type="button" onclick="getForm('delete')">Delete DM</button></th>
