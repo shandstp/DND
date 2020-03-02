@@ -11,9 +11,13 @@
     </style>
 </head>
 <body>
-	<form action="" id="filterByGame">
-		<input type="text" placeholder="Example: Azeroth" name="gameName">
-		<input type="submit" value="Filter By Game">
+	<form action="" id="filterPlayers" method="">
+    <select id="game_filter" name="game">
+      {{#each Game}}
+        <option value="{{id}}">{{name}}</option>
+      {{/each}}
+    </select>
+		<input type="button" value="Filter By Game" onclick="filterByGame()">
 	</form><br>
 
   <form action="" id="charCreate">
@@ -66,4 +70,12 @@
         {{/each}}
       </tbody>
 	</table>
+  <script>
+    function filterByGame() {
+      //get the id of the selected homeworld from the filter dropdown
+      var gameid = document.getElementById('game_filter').value
+      //construct the URL and redirect to it
+      window.location = '/Players/filter/' + parseInt(gameid)
+    }
+  </script>
 </body>
