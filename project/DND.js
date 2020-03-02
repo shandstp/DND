@@ -41,15 +41,16 @@ function getPlayers(res, mysql, context, complete){
 
 function getPlayersByGame(req, res, mysql, context, complete){
       var query = "SELECT firstName, lastName, playableChar AS playable, Games.name AS game, class, SpouseId, hitpointVal, humanoidID FROM Humanoids INNER JOIN Games ON Humanoids.gameID = Games.gameID WHERE Humanoids.gameID = ?";
-      console.log(req.params)
-      var inserts = [req.params.gameid]
+      console.log(req.params);
+      var inserts = [req.params.gameid];
       mysql.pool.query(query, inserts, function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
                 res.end();
             }
             context.player = results;
-            console.log(result);
+            console.log(context);
+            // console.log(result);
             complete();
       });
 }
@@ -113,6 +114,20 @@ app.post('/Players', function(req, res){
     }
 
   });
+});
+
+app.get('/Players/filter/:gameid', function(req, res){
+  var callbackCount = 0;
+  var context = {};
+  var mysql = req.app.get('mysql');
+  getPlayersByGame(req, res, mysql, context, complete);
+  getGames(res, mysql, context, complete);
+  function complete(){
+    callbackCount++;
+    if(callbackCount >= 2){
+      res.render('players', context);
+    }
+  }
 });
 
 app.get('/DungeonMasters', function(req,res){
