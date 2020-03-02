@@ -1,0 +1,45 @@
+<h1>Games</h1>
+<h2>Search, Create, Delete or Update Games</h2>
+<head>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+  <form action="" id="filterByPopulation">
+		<input type="text" placeholder="Example: 3" name="gameSize">
+		<input type="submit" value="Filter By Game Size">
+	</form><br>
+
+  <form action="/Games" method="post" id="gameCreate">
+    <input type="text" placeholder="Name" name="name">
+    <input type="text" placeholder="DM Firstname" name="firstname">
+    <input type="text" placeholder="DM Lastname" name="lastname">
+    <input type="submit" value="Create Game">
+  </form>
+
+	<form action="" id="submitGame">
+	<table>
+	    <thead>
+	        <th>Name</th>
+	        <th>Population</th>
+	        <th>Dungeon Master</th>
+	    </thead>
+      <tbody>
+        {{#each Game}}
+        <tr>
+          <td>{{name}}</td>
+          <td>{{population}}</td>
+          <td>{{DMfirst}} {{DMlast}}</td>
+          <th><button type="button" onclick="getForm('modify')">Modify Game</button></th>
+          <th><button type="button" onclick="getForm('delete')">Delete Game</button></th>
+        </tr>
+        {{/each}}
+      </tbody>
+	</table>
+</body>
