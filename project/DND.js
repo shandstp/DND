@@ -126,6 +126,7 @@ app.get('/Players/filter/:gameid', function(req, res){
     callbackCount++;
     if(callbackCount >= 2){
       res.render('players', context);
+      return;
     }
   }
 });
@@ -179,6 +180,23 @@ app.get('/Items', function(req, res){
     }
   }
   return;
+});
+
+app.post('/Items', function(req, res){
+  console.log(req.body);
+  var mysql = req.app.get('mysql');
+  var sql = "INSERT INTO Items (name, effect, type, cost) VALUES (?,?,?,?)";
+  var insert = [req.body.itemName, req.body.itemEffect, req.body.itemType, req.body.itemCost];
+  sql = mysql.pool.query(sql, insert, function(error, results, fields){
+    if(error){
+      console.log(JSON.stringify(error));
+      res.write(JSON.stringify(error));
+      res.end();
+    }
+    else{
+      res.redirect('/Items');
+    }
+  });
 });
 
 app.use(function(req,res){
