@@ -20,17 +20,15 @@
 		<input type="button" value="Filter By Game" onclick="filterByGame()">
 	</form><br>
 
-  <form action="" id="charCreate">
+  <form action="/Players" method="post" id="charCreate">
     <input type="text" placeholder="First Name" name="firstname">
     <input type="text" placeholder="Last Name" name="lastname">
-    <input list="games" placeholder="Name of Game">
-    <datalist id="games">
-      <option value="Azeroth">
-      <option value="Arrakis">
-      <option value="Tamriel">
-      <option value="Narnia">
-      <option value="etc...">
-    </datalist>
+    <!-- <input list="games" placeholder="Name of Game" name="gameName"> -->
+    <select name="gameName">
+      {{#each Game}}
+        <option value="{{id}}">{{name}}</option>
+      {{/each}}
+    </select>
     <input type="text" placeholder="Character Class" name="class">
     <input type="submit" value="Create Character">
   </form>

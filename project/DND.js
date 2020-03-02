@@ -12,7 +12,7 @@ app.use(express.static('views/images'));
 app.engine('handlebars', handlebars.engine);
 app.set('mysql', mysql)
 app.set('view engine', 'handlebars');
-app.set('port', 7701);
+app.set('port', 7017);
 
 var context = {};
 
@@ -55,7 +55,7 @@ function getPlayersByGame(req, res, mysql, context, complete){
 }
 
 function getDMs(res, mysql, context, complete){
-  mysql.pool.query("SELECT firstName, lastName, experience, Games.name AS gameName, playerNum, email, DMID FROM DungeonMasters LEFT JOIN Games ON DMID = dungeonMasterID", function(error, result, fields){
+  mysql.pool.query("SELECT firstName, lastName, experience, email, DMID FROM DungeonMasters", function(error, result, fields){
     if(error){
       res.write(JSON.stringify(error));
       res.end();
@@ -73,7 +73,6 @@ function getItems(res, mysql, context, complete){
       res.end();
     }
     context.Item = result;
-    // console.log(result);
     complete();
   });
 }
@@ -84,7 +83,7 @@ app.get('/', function(req,res){
    return;
 });
 
-app.use('/Players', function(req,res){
+app.get('/Players', function(req,res){
    var callbackCount = 0;
    var context = {};
    var mysql = req.app.get('mysql');
@@ -96,26 +95,27 @@ app.use('/Players', function(req,res){
             res.render('players', context);
          }
    }
-   return;
+   // return;
 });
 
-app.get('/filter/:gameid', function(req, res){
-    var callbackCount = 0;
-    console.log("hitting filter route")
-    var context = {};
-    var mysql = req.app.get('mysql');
-    getPlayersByGame(res, mysql, context, complete);
-    getGames(res, mysql, context, complete);
-    function complete(){
-        callbackCount++;
-        if(callbackCount >= 2){
-            res.render('people', context);
-        }
-
+app.post('/Players', function(req, res){
+  var mysql = req.app.get('mysql');
+  var sql = "INSERT INTO Humanoids (firstName, lastName, playableChar, gameID, class, hitpointVal) VALUES (?,?,1,?,?,20)";
+  var inserts = [req.body.firstname, req.body.lastname, req.body.gameName, req.body.class];
+  sql = mysql.pool.query(sql,inserts,function(error,results,fields){
+    if(error){
+      console.log(JSON.stringify(error));
+      res.write(JSON.stringify(error));
+      res.end();
     }
+    else{
+      res.redirect('/Players');
+    }
+
+  });
 });
 
-app.use('/DungeonMasters', function(req,res){
+app.get('/DungeonMasters', function(req,res){
    var callbackCount = 0;
    var context = {};
    var mysql = req.app.get('mysql');
@@ -129,13 +129,30 @@ app.use('/DungeonMasters', function(req,res){
    return;
 });
 
+app.post('/DungeonMasters', function(req, res){
+  var mysql = req.app.get('mysql');
+  var sql = "INSERT INTO DungeonMasters (firstName, lastName, experience, email) VALUES (?,?,?,?)";
+  var inserts = [req.body.firstname, req.body.lastname, req.body.experience, req.body.dmEmail];
+  sql = mysql.pool.query(sql,inserts,function(error,results,fields){
+    if(error){
+      console.log(JSON.stringify(error));
+      res.write(JSON.stringify(error));
+      res.end();
+    }
+    else{
+      res.redirect('/DungeonMasters');
+    }
+
+  });
+});
+
 app.get('/charSheet', function(req,res){
   var context = {};
   res.render('charSheet', context);
   return;
 });
 
-app.use('/Items', function(req, res){
+app.get('/Items', function(req, res){
   var callbackCount = 0;
   var context = {};
   var mysql = req.app.get('mysql');
