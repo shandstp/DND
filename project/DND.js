@@ -41,7 +41,7 @@ function getPlayers(res, mysql, context, complete){
 
 function getPlayersByGame(req, res, mysql, context, complete){
       var query = "SELECT firstName, lastName, playableChar AS playable, Games.name AS game, class, SpouseId, hitpointVal, humanoidID FROM Humanoids INNER JOIN Games ON Humanoids.gameID = Games.gameID WHERE Humanoids.gameID = ?";
-      console.log(req.params);
+      // console.log(req.params);
       var inserts = [req.params.gameid];
       mysql.pool.query(query, inserts, function(error, results, fields){
             if(error){
@@ -49,7 +49,7 @@ function getPlayersByGame(req, res, mysql, context, complete){
                 res.end();
             }
             context.player = results;
-            console.log(context);
+            // console.log(context);
             // console.log(result);
             complete();
       });
@@ -62,6 +62,18 @@ function getDMs(res, mysql, context, complete){
       res.end();
     }
     context.DM = result;
+    // console.log(result);
+    complete();
+  });
+}
+
+function getGames(res, mysql, context, complete){
+  mysql.pool.query("SELECT name, playerNum, firstName, lastName, gameID FROM Games INNER JOIN DungeonMasters ON dungeonMasterID = DMID", function(error, result, fields){
+    if(error){
+      res.write(JSON.stringify(error));
+      res.end();
+    }
+    context.Game = result;
     // console.log(result);
     complete();
   });
@@ -162,6 +174,38 @@ app.post('/DungeonMasters', function(req, res){
   });
 });
 
+app.get('/Games', function(req,res){
+   var callbackCount = 0;
+   var context = {};
+   var mysql = req.app.get('mysql');
+   getGames(res, mysql, context, complete);
+   function complete(){
+     callbackCount++;
+      if(callbackCount >= 1){
+        res.render('games', context);
+      }
+   }
+   return;
+});
+
+app.post('/Games', function(req, res){
+  var mysql = req.app.get('mysql');
+  var sql = "INSERT INTO Games (name, playerNum, dungeonMasterID) VALUES (?,10,(SELECT DMID FROM DungeonMasters WHERE firstName = ? AND lastName = ?))";
+  var inserts = [req.body.name, req.body.firstname, req.body.lastname];
+  sql = mysql.pool.query(sql,inserts,function(error,results,fields){
+    if(error){
+      console.log(JSON.stringify(error));
+      res.write(JSON.stringify(error));
+      res.end();
+    }
+    else{
+      // console.log(sql);
+      res.redirect('/Games');
+    }
+
+  });
+});
+
 app.get('/charSheet', function(req,res){
   var context = {};
   res.render('charSheet', context);
@@ -183,7 +227,7 @@ app.get('/Items', function(req, res){
 });
 
 app.post('/Items', function(req, res){
-  console.log(req.body);
+  // console.log(req.body);
   var mysql = req.app.get('mysql');
   var sql = "INSERT INTO Items (name, effect, type, cost) VALUES (?,?,?,?)";
   var insert = [req.body.itemName, req.body.itemEffect, req.body.itemType, req.body.itemCost];
