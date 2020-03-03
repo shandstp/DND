@@ -29,3 +29,13 @@ VALUES (*name, $effect, *type, $cost);
 -- inserting into games
 INSERT INTO `Games`(`name`, `dungeonMasterID`, `playerNum`)
 VALUES (*name, $DMID, *playerNum);
+
+-- inserting into ItemsHumanoids
+INSERT INTO `ItemsHumanoids`(`itemID`, `humanoidID`)
+VALUES ((SELECT itemID FROM Items WHERE name=*name), (SELECT humanoidID FROM Humanoids WHERE firstName=*firstName AND lastName=*lastName));
+
+-- Updating a Humanoid
+UPDATE `Humanoids` SET `firstName`=*firstName, `lastName`=*lastName, `playableChar`=*playableChar, `gameID`=*gameID, `class`=*class, `spouseID`=$(SELECT humanoidID FROM Humanoids WHERE firstName=*firstName AND lastName=*lastName), `hitpointVal`=*hitpointVal;
+
+-- Deleting a Humanoid
+DELETE FROM Humanoids WHERE `firstName`=*firstName, `lastName`=*lastName, HumanoidID=humanoidID;
