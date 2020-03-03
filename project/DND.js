@@ -17,7 +17,7 @@ app.set('port', 7017);
 var context = {};
 
 function getGames(res, mysql, context, complete){
-  mysql.pool.query("SELECT gameID AS id, name FROM Games", function(error, results, fields){
+  mysql.pool.query("SELECT gameID, name FROM Games", function(error, results, fields){
     if(error){
       res.write(JSON.stringify(error));
       res.end();

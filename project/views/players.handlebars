@@ -14,10 +14,10 @@
 	<form action="" id="filterPlayers" method="">
     <select id="game_filter" name="game">
       {{#each Game}}
-        <option value="{{id}}">{{name}}</option>
+        <option value="{{gameID}}">{{name}}</option>
       {{/each}}
     </select>
-		<input type="button" value="Filter By Game" onclick="filterByGame()">
+		<input type="button" value="Filter By Game" onclick="filter()">
 	</form><br>
 
   <form action="/Players" method="post" id="charCreate">
@@ -26,7 +26,7 @@
     <!-- <input list="games" placeholder="Name of Game" name="gameName"> -->
     <select name="gameName">
       {{#each Game}}
-        <option value="{{id}}">{{name}}</option>
+        <option value="{{gameID}}">{{name}}</option>
       {{/each}}
     </select>
     <input type="text" placeholder="Character Class" name="class">
@@ -69,7 +69,7 @@
       </tbody>
 	</table>
   <script>
-    function filterByGame() {
+    function filter() {
       //get the id of the selected homeworld from the filter dropdown
       var gameid = document.getElementById('game_filter').value
       //construct the URL and redirect to it
