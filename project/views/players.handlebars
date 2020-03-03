@@ -12,7 +12,7 @@
 </head>
 <body>
 	<form action="" id="filterPlayers" method="">
-    <select id="game_filter" name="game">
+    <select id="game_filter" name="gameFilter">
       {{#each Game}}
         <option value="{{id}}">{{name}}</option>
       {{/each}}
@@ -71,9 +71,10 @@
   <script>
     function filterByGame() {
       //get the id of the selected homeworld from the filter dropdown
-      var gameid = document.getElementById('game_filter').value
+      var gameobj = document.getElementById('game_filter');
+      var gameid = gameobj.options[gameobj.selectedIndex].value;
       //construct the URL and redirect to it
-      window.location = '/Players/filter/' + parseInt(gameid)
+      window.location = '/Players/filter/' + parseInt(gameid);
     }
   </script>
 </body>
