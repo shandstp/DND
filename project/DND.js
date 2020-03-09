@@ -90,6 +90,32 @@ function getItems(res, mysql, context, complete){
   });
 }
 
+function getItemsByPlayer(res, mysql, context, id, complete){
+  var sql = "SELECT name, effect, type, cost, Items.itemID FROM Humanoids INNER JOIN ItemsHumanoids ON Humanoids.humanoidID = ItemsHumanoids.humanoidID INNER JOIN Items ON Items.itemID = ItemsHumanoids.itemID WHERE Humanoids.humanoidID = ?";
+  var inserts = [id];
+  mysql.pool.query(sql, inserts, function(error, result, fields){
+    if(error){
+      res.write(JSON.stringify(error));
+      res.end();
+    }
+    context.Item = result;
+    complete();
+  })
+}
+
+function getPlayer(res, mysql, context, id, complete){
+  var sql = "SELECT firstName, lastName, Games.name AS gameName, class, hitpointVal, humanoidID, Games.gameID AS gameID FROM Humanoids INNER JOIN Games ON Humanoids.gameID=Games.gameID WHERE humanoidID = ?";
+  var inserts = [id];
+  mysql.pool.query(sql, inserts, function(error, result, fields){
+    if(error){
+      res.write(JSON.stringify(error));
+      res.end();
+    }
+    context.Player = result[0];
+    complete();
+  });
+}
+
 app.get('/', function(req,res){
    var context = {};
    res.render('home', context);
@@ -97,6 +123,7 @@ app.get('/', function(req,res){
 });
 
 app.get('/Players', function(req,res){
+  // console.log("Using /Players app.get route");
    var callbackCount = 0;
    var context = {};
    var mysql = req.app.get('mysql');
@@ -126,6 +153,21 @@ app.post('/Players', function(req, res){
     }
 
   });
+});
+
+app.get('/Players/charSheet/:humanoidID', function(req, res){
+  callbackCount = 0;
+  var context = {};
+  var mysql = req.app.get('mysql');
+  getPlayer(res, mysql, context, req.params.humanoidID, complete);
+  getItemsByPlayer(res, mysql, context, req.params.humanoidID, complete);
+  getGames(res, mysql, context, complete);
+  function complete(){
+    callbackCount++;
+    if(callbackCount >= 3){
+      res.render('charSheet', context);
+    }
+  }
 });
 
 app.get('/Players/filter/:gameid', function(req, res){
@@ -206,12 +248,6 @@ app.post('/Games', function(req, res){
   });
 });
 
-app.get('/charSheet', function(req,res){
-  var context = {};
-  res.render('charSheet', context);
-  return;
-});
-
 app.get('/Items', function(req, res){
   var callbackCount = 0;
   var context = {};
@@ -224,6 +260,23 @@ app.get('/Items', function(req, res){
     }
   }
   return;
+});
+
+app.post('/Players/charSheet/:humanoidID', function(req, res){
+  // console.log("Taking /Players/charSheet/:humanoidID post route");
+  var mysql = req.app.get('mysql');
+  var sql = "UPDATE Humanoids SET firstName = ?, lastName = ?, gameID = ?, class = ?, hitpointVal = ? WHERE humanoidID = ?";
+  // console.log("humid is:", req.body.humid);
+  var inserts = [req.body.firstname, req.body.lastname, req.body.gameName, req.body.class, req.body.hitpoints, req.body.humid];
+  sql = mysql.pool.query(sql, inserts, function(error, results, fields){
+    if(error){
+      res.write(JSON.stringify(error));
+      res.end();
+    }
+    else{
+      res.redirect('/Players/charSheet/' + req.body.humid);
+    }
+  });
 });
 
 app.post('/Items', function(req, res){
@@ -242,6 +295,7 @@ app.post('/Items', function(req, res){
     }
   });
 });
+
 
 app.use(function(req,res){
    res.status(404);

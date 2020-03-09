@@ -62,8 +62,8 @@
             <td>None</td>
           {{/if}}
           <td>{{hitpointVal}}</td>
-          <th><button type="button" onclick="getForm('modify')">Character Sheet</button></th>
-          <th><button type="button" onclick="getForm('delete')">Delete</button></th>
+          <td><a href="/Players/charSheet/{{humanoidID}}">Character Sheet</a></td>
+          <td><button type="button" onclick="getForm('delete')">Delete</button></td>
         </tr>
         {{/each}}
       </tbody>

@@ -1,52 +1,78 @@
-<h1>Players Found</h1>
-<head>
-    <style>
-        table, th, td {
-            border: 1px solid black;
-        }
-        th, td {
-            padding: 10px;
-        }
-    </style>
-</head>
-<body>
-	<table>
-	    <tr>
-	        <th>First Name</th>
-	        <th>Last Name</th>
-	        <th>Playable</th>
-	        <th>gameId</th>
-	        <th>Class</th>
-	        <th>SpouseId</th>
-	        <th>Hitpoints</th>
-	        <th>Modify</th>
-	        <th>Delete</th>
-	    </tr>
-	    <tr>
-	        <th>Eldar</th>
-	        <th>Bolden</th>
-	        <th>True</th>
-	        <th>1</th>
-	        <th>Fighter</th>
-	        <th>Null</th>
-	        <th>15</th>
-            <th><button type="button" onclick="getForm('modify')">Modify Char</button></th>
-            <th><button type="button" onclick="getForm('delete')">Delete Char</button></th>
-	    </tr>
-	    <tr>
-	        <th>Steja</th>
-	        <th>Falhorn</th>
-	        <th>False</th>
-	        <th>1</th>
-	        <th>Wizard</th>
-	        <th>Null</th>
-	        <th>11</th>
-            <th><button type="button" onclick="getForm('modify')">Modify Char</button></th>
-            <th><button type="button" onclick="getForm('delete')">Delete Char</button></th>
-	    </tr>
-	</table>
-    <form action="" id="modify" style="display:none">
-    </form>
-    <form action="" id="delete" style="display:none">
-    </form>
-</body>
+<h1> {{Player.firstName}} {{Player.lastName}} </h1>
+
+<form action="" method="post" id="update-player" style="padding: 50px">
+  <table>
+    <thead>
+      <tr>
+        <th> First Name </th>
+        <th> Last Name </th>
+        <th> Player Class </th>
+        <th> Game </th>
+        <th> Hitpoints </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <input type="hidden" name="humid" value="{{Player.humanoidID}}">
+          <input type="text" name="firstname" value="{{Player.firstName}}">
+        </td>
+        <td>
+          <input type="text" name="lastname" value="{{Player.lastName}}"><br>
+        </td>
+        <td>
+          <input type="text" name="class" value="{{Player.class}}">
+        </td>
+        <td>
+          <select name="gameName" id="game-selector">
+            {{#each Game}}
+              <option value="{{gameID}}">{{name}}</option>
+            {{/each}}
+          </select>
+        </td>
+        <td>
+          <input type="number" name="hitpoints" value="{{Player.hitpointVal}}">
+        </td>
+        <td><input type="submit" value="Update"></td>
+      </tr>
+    </tbody>
+  </table>
+  </form>
+
+<h2>{{Player.firstName}}'s Items:</h2>
+
+<form action="" method="post" id="itemCreate" style="padding: 50px">
+  <input type="text" placeholder="Item name" name="itemname">
+  <input type="text" placeholder="Effect" name="effect">
+  <input type="text" placeholder="Type" name="type">
+  <input type="text" placeholder="cost" name="cost">
+  <input type="submit" value="Add to pack">
+</form><br>
+
+{{#if Item}}
+<form action="" id="submitItem" style="padding: 50px">
+<table style="width: 50%; align: left">
+  <thead>
+    <tr>
+      <th> Item Name </th>
+      <th> Effect </th>
+      <th> Type </th>
+      <th> Cost </th>
+    </tr>
+  </thead>
+  <tbody>
+  {{#each Item}}
+    <tr>
+      <td>{{name}}</td>
+      <td>{{effect}}</td>
+      <td>{{type}}</td>
+      <td>{{cost}}</td>
+      <td><button type="button" onclick="getForm('delete')"> Delete Item </button></td>
+    </tr>
+  {{/each}}
+  </tbody>
+</table>
+</form>
+{{else}}
+  <h3>You pack appears to be empty =(</h3>
+{{/if}}
