@@ -49,17 +49,13 @@
       <option value"{{itemID}}">{{name}}</option>
     {{/each}}
   </select>
-  <!-- <input type="text" placeholder="Item name" name="itemname">
-  <input type="text" placeholder="Effect" name="effect">
-  <input type="text" placeholder="Type" name="type">
-  <input type="text" placeholder="cost" name="cost"> -->
   <input type="submit" value="Add to pack">
 </form><br>
 
 <h2>{{Player.firstName}}'s Items:</h2>
 
 {{#if PlayerItem}}
-<form action="" id="submitItem" style="padding: 50px">
+
 <table style="width: 50%; align: left">
   <thead align="left">
       <th> Item Name </th>
@@ -70,16 +66,35 @@
   <tbody>
   {{#each PlayerItem}}
     <tr>
+      <!-- <form action="/Players/delItem" method="post" style="padding: 50px"> -->
+      <!-- <input type="hidden" name="itemID" value="{{itemID}}">
+      <input type="hidden" name="humID" value="{{humanoidID}}"> -->
       <td>{{name}}</td>
       <td>{{effect}}</td>
       <td>{{type}}</td>
       <td>{{cost}}</td>
-      <td><button type="button" onclick="getForm('delete')"> Delete Item </button></td>
+      <td><button onclick="deleteItem({{itemID}}, {{humanoidID}})">Delete Item</button></td>
     </tr>
   {{/each}}
   </tbody>
 </table>
-</form>
 {{else}}
   <h3>You pack appears to be empty =(</h3>
 {{/if}}
+
+<script>
+function deleteItem(itm, hum){
+    $.ajax({
+        url: '/Players/delItem/'+ itm + '/humanoid/' + hum,
+        type: 'DELETE',
+        success: function(result){
+            if(result.responseText != undefined){
+                alert(result.responseText)
+            }
+            else{
+                window.location.reload(true)
+            }
+        }
+    })
+};
+</script>
