@@ -61,7 +61,8 @@ CREATE TABLE ItemsHumanoids
   humanoidID INT NOT NULL,
   FOREIGN KEY (itemID) REFERENCES Items(itemID) ON DELETE CASCADE,
   FOREIGN KEY (humanoidID) REFERENCES Humanoids(humanoidID) ON DELETE CASCADE,
-  PRIMARY KEY (itemsHumanoidsID)
+  PRIMARY KEY (itemsHumanoidsID),
+  CONSTRAINT UniqueHumanItem UNIQUE	(itemID, humanoidID)
 );
 
 
