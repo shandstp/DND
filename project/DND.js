@@ -98,7 +98,7 @@ function getItemsByPlayer(res, mysql, context, id, complete){
       res.write(JSON.stringify(error));
       res.end();
     }
-    context.Item = result;
+    context.PlayerItem = result;
     complete();
   })
 }
@@ -181,13 +181,15 @@ app.get('/Players/charSheet/:humanoidID', function(req, res){
   getPlayer(res, mysql, context, req.params.humanoidID, complete);
   getItemsByPlayer(res, mysql, context, req.params.humanoidID, complete);
   getGames(res, mysql, context, complete);
+  getItems(res, mysql, context, complete);
   function complete(){
     callbackCount++;
-    if(callbackCount >= 3){
+    if(callbackCount >= 4){
       res.render('charSheet', context);
     }
   }
 });
+
 
 app.get('/Players/filter/:gameid', function(req, res){
   var callbackCount = 0;
@@ -297,6 +299,22 @@ app.post('/Players/charSheet/:humanoidID', function(req, res){
     }
   });
 });
+
+app.post('/Players/addItem', function(req, res){
+  var mysql = req.app.get('mysql');
+  var sql = "INSERT INTO ItemsHumanoids (itemID, humanoidID) VALUES ((SELECT itemID FROM Items WHERE name = ? LIMIT 1),?)";
+  var inserts = [req.body.itemName, req.body.humid];
+  sql = mysql.pool.query(sql, inserts, function(error, results, fields){
+    if(error){
+      console.log(JSON.stringify(error));
+      res.write(JSON.stringify(error));
+      res.end();
+    }
+    else{
+      res.redirect('/Players/charSheet/' + req.body.humid);
+    }
+  })
+})
 
 app.post('/Items', function(req, res){
   // console.log(req.body);
