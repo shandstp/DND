@@ -23,17 +23,17 @@
   <form action="/Players" method="post" id="charCreate">
     <input type="text" placeholder="First Name" name="firstname">
     <input type="text" placeholder="Last Name" name="lastname">
+    <input type="text" placeholder="Character Class" name="class">
     <!-- <input list="games" placeholder="Name of Game" name="gameName"> -->
     <select name="gameName">
       {{#each Game}}
         <option value="{{gameID}}">{{name}}</option>
       {{/each}}
     </select>
-    <input type="text" placeholder="Character Class" name="class">
     <input type="submit" value="Create Character">
   </form>
 
-	<form action="" id="submitChar">
+	<!-- <form action="/Players/delete/{{humanoidID}}" method="post" id="deleteChar"> -->
 	<table>
 	    <thead>
 	        <th>First Name</th>
@@ -47,6 +47,7 @@
       <tbody>
         {{#each player}}
         <tr>
+          <input type="hidden" name="humid" value="{{humanoidID}}">
           <td>{{firstName}}</td>
           <td>{{lastName}}</td>
           {{#if playable}}
@@ -62,8 +63,10 @@
             <td>None</td>
           {{/if}}
           <td>{{hitpointVal}}</td>
-          <td><a href="/Players/charSheet/{{humanoidID}}">Character Sheet</a></td>
-          <td><button type="button" onclick="getForm('delete')">Delete</button></td>
+          <td><button onclick="window.location.href = '/Players/charSheet/{{humanoidID}}';">Character Sheet</button></td>
+          <td><button onclick="window.location.href = '/Players/delete/{{humanoidID}}';">Delete</button></td>
+          <!-- <td><a href="/Players/charSheet/{{humanoidID}}">Character Sheet</a></td> -->
+          <!-- <td><input type="submit" value="Delete"></td> -->
         </tr>
         {{/each}}
       </tbody>

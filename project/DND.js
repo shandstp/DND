@@ -122,6 +122,7 @@ app.get('/', function(req,res){
    return;
 });
 
+
 app.get('/Players', function(req,res){
   // console.log("Using /Players app.get route");
    var callbackCount = 0;
@@ -136,6 +137,24 @@ app.get('/Players', function(req,res){
          }
    }
    // return;
+});
+
+app.get('/Players/delete/:humanoidID', function(req,res){
+  // console.log("Taking /Players/delete route");
+  var mysql = req.app.get('mysql');
+  var sql = "DELETE FROM Humanoids WHERE humanoidID = ?";
+  var inserts = [req.params.humanoidID];
+  // console.log(req.body);
+  sql = mysql.pool.query(sql, inserts, function(error, results, fields){
+    if(error){
+      console.log(JSON.stringify(error));
+      res.write(JSON.stringify(error));
+      res.end();
+    }
+    else{
+      res.redirect('/Players');
+    }
+  });
 });
 
 app.post('/Players', function(req, res){
