@@ -7,7 +7,6 @@ var mysql = require('./dbcon.js');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('public'));
-app.use(express.static('views/images'));
 
 app.engine('handlebars', handlebars.engine);
 app.set('mysql', mysql)
