@@ -90,7 +90,7 @@ function getItems(res, mysql, context, complete){
 }
 
 function getItemsByPlayer(res, mysql, context, id, complete){
-  var sql = "SELECT name, effect, type, cost, Items.itemID FROM Humanoids INNER JOIN ItemsHumanoids ON Humanoids.humanoidID = ItemsHumanoids.humanoidID INNER JOIN Items ON Items.itemID = ItemsHumanoids.itemID WHERE Humanoids.humanoidID = ?";
+  var sql = "SELECT name, effect, type, cost, Items.itemID, Humanoids.humanoidID FROM Humanoids INNER JOIN ItemsHumanoids ON Humanoids.humanoidID = ItemsHumanoids.humanoidID INNER JOIN Items ON Items.itemID = ItemsHumanoids.itemID WHERE Humanoids.humanoidID = ?";
   var inserts = [id];
   mysql.pool.query(sql, inserts, function(error, result, fields){
     if(error){
@@ -137,6 +137,24 @@ app.get('/Players', function(req,res){
    }
    // return;
 });
+
+app.delete('/Players/delItem/:itm/humanoid/:hum', function(req, res){
+  // console.log(req.params.itm);
+  // console.log(req.params.hum);
+  var mysql = req.app.get('mysql');
+  var sql = "DELETE FROM ItemsHumanoids WHERE itemID = ? AND humanoidID = ?";
+  var inserts = [req.params.itm, req.params.hum];
+  sql = mysql.pool.query(sql, inserts, function(error, results, fields){
+    if(error){
+      res.write(JSON.stringify(error));
+      res.status(400);
+      res.end();
+    }
+    else{
+      res.status(202).end();
+    }
+  })
+})
 
 app.get('/Players/delete/:humanoidID', function(req,res){
   // console.log("Taking /Players/delete route");
