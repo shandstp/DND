@@ -274,9 +274,14 @@ app.post('/Games', function(req, res){
   var inserts = [req.body.name, req.body.firstname, req.body.lastname];
   sql = mysql.pool.query(sql,inserts,function(error,results,fields){
     if(error){
-      console.log(JSON.stringify(error));
-      res.write(JSON.stringify(error));
-      res.end();
+      if(error.sqlMessage == "Column 'dungeonMasterID' cannot be null"){
+        res.redirect('/Games');
+      }
+      else{
+        console.log(JSON.stringify(error));
+        res.write(JSON.stringify(error));
+        res.end();
+      }
     }
     else{
       // console.log(sql);
