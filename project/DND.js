@@ -176,13 +176,18 @@ app.get('/Players/delete/:humanoidID', function(req,res){
 
 app.post('/Players', function(req, res){
   var mysql = req.app.get('mysql');
-  var sql = "INSERT INTO Humanoids (firstName, lastName, playableChar, gameID, class, hitpointVal) VALUES (?,?,1,?,?,20)";
+  var sql = "INSERT INTO Humanoids (firstName, lastName, playableChar, gameID, class, hitpointVal) VALUES ((SELECT NULLIF(?, '')),(SELECT NULLIF(?, '')),1,?,(SELECT NULLIF(?, '')),20)";
   var inserts = [req.body.firstname, req.body.lastname, req.body.gameName, req.body.class];
   sql = mysql.pool.query(sql,inserts,function(error,results,fields){
     if(error){
-      console.log(JSON.stringify(error));
-      res.write(JSON.stringify(error));
-      res.end();
+	if(error.sqlMessage == "Column 'firstName' cannot be null" || error.sqlMessage == "Column 'lastName' cannot be null" || error.sqlMessage == "Column 'class' cannot be null"){
+		res.redirect('/Players');
+	}
+	else{
+      		console.log(JSON.stringify(error));
+      		res.write(JSON.stringify(error));
+      		res.end();
+	}
     }
     else{
       res.redirect('/Players');
@@ -239,13 +244,18 @@ app.get('/DungeonMasters', function(req,res){
 
 app.post('/DungeonMasters', function(req, res){
   var mysql = req.app.get('mysql');
-  var sql = "INSERT INTO DungeonMasters (firstName, lastName, experience, email) VALUES (?,?,?,?)";
+  var sql = "INSERT INTO DungeonMasters (firstName, lastName, experience, email) VALUES ((SELECT NULLIF(?, '')), (SELECT NULLIF(?, '')),?,?)";
   var inserts = [req.body.firstname, req.body.lastname, req.body.experience, req.body.dmEmail];
   sql = mysql.pool.query(sql,inserts,function(error,results,fields){
     if(error){
-      console.log(JSON.stringify(error));
-      res.write(JSON.stringify(error));
-      res.end();
+	if(error.sqlMessage == "Column 'firstName' cannot be null" || error.sqlMessage == "Column 'lastName' cannot be null"){
+		res.redirect('/DungeonMasters');
+	}
+	else{
+      		console.log(JSON.stringify(error));
+      		res.write(JSON.stringify(error));
+      		res.end();
+	}
     }
     else{
       res.redirect('/DungeonMasters');
@@ -270,11 +280,11 @@ app.get('/Games', function(req,res){
 
 app.post('/Games', function(req, res){
   var mysql = req.app.get('mysql');
-  var sql = "INSERT INTO Games (name, playerNum, dungeonMasterID) VALUES (?,10,(SELECT DMID FROM DungeonMasters WHERE firstName = ? AND lastName = ?))";
+  var sql = "INSERT INTO Games (name, playerNum, dungeonMasterID) VALUES ((SELECT NULLIF(?, '')),10,(SELECT DMID FROM DungeonMasters WHERE firstName = (SELECT NULLIF(?, '')) AND lastName = (SELECT NULLIF(?, ''))))";
   var inserts = [req.body.name, req.body.firstname, req.body.lastname];
   sql = mysql.pool.query(sql,inserts,function(error,results,fields){
     if(error){
-      if(error.sqlMessage == "Column 'dungeonMasterID' cannot be null"){
+      if(error.sqlMessage == "Column 'dungeonMasterID' cannot be null" || error.sqlMessage == "Column 'name' cannot be null"){
         res.redirect('/Games');
       }
       else{
@@ -308,13 +318,19 @@ app.get('/Items', function(req, res){
 app.post('/Players/charSheet/:humanoidID', function(req, res){
   // console.log("Taking /Players/charSheet/:humanoidID post route");
   var mysql = req.app.get('mysql');
-  var sql = "UPDATE Humanoids SET firstName = ?, lastName = ?, gameID = ?, class = ?, hitpointVal = ? WHERE humanoidID = ?";
+  var sql = "UPDATE Humanoids SET firstName = (SELECT NULLIF(?, '')), lastName = (SELECT NULLIF(?, '')), gameID = ?, class = (SELECT NULLIF(?, '')), hitpointVal = ? WHERE humanoidID = ?";
   // console.log("humid is:", req.body.humid);
   var inserts = [req.body.firstname, req.body.lastname, req.body.gameName, req.body.class, req.body.hitpoints, req.body.humid];
   sql = mysql.pool.query(sql, inserts, function(error, results, fields){
     if(error){
-      res.write(JSON.stringify(error));
-      res.end();
+	if(error.sqlMessage == "Column 'firstName' cannot be null" || error.sqlMessage == "Column 'lastName' cannot be null" || error.sqlMessage == "Column 'class' cannot be null"){
+		res.redirect('/Players/charSheet/' + req.body.humid);
+	}
+	else{
+      		console.log(JSON.stringify(error));
+      		res.write(JSON.stringify(error));
+      		res.end();
+	}
     }
     else{
       res.redirect('/Players/charSheet/' + req.body.humid);
@@ -340,19 +356,24 @@ app.post('/Players/addItem', function(req, res){
     else{
       res.redirect('/Players/charSheet/' + req.body.humid);
     }
-  })
-})
+  });
+});
 
 app.post('/Items', function(req, res){
   // console.log(req.body);
   var mysql = req.app.get('mysql');
-  var sql = "INSERT INTO Items (name, effect, type, cost) VALUES (?,?,?,?)";
+  var sql = "INSERT INTO Items (name, effect, type, cost) VALUES ((SELECT NULLIF(?, '')),?,(SELECT NULLIF(?, '')),?)";
   var insert = [req.body.itemName, req.body.itemEffect, req.body.itemType, req.body.itemCost];
   sql = mysql.pool.query(sql, insert, function(error, results, fields){
     if(error){
-      console.log(JSON.stringify(error));
-      res.write(JSON.stringify(error));
-      res.end();
+      if(error.sqlMessage == "Column 'name' cannot be null" || error.sqlMessage == "Column 'type' cannot be null"){
+        res.redirect('/Items');
+      }
+      else{
+        console.log(JSON.stringify(error));
+        res.write(JSON.stringify(error));
+        res.end();
+      }
     }
     else{
       res.redirect('/Items');
