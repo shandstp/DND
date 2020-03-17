@@ -22,7 +22,7 @@ CREATE TABLE Games
   name varchar(255) NOT NULL,
   dungeonMasterID INT NOT NULL,
   playerNum INT NOT NULL,
-  FOREIGN KEY (dungeonMasterID) REFERENCES DungeonMasters(DMID),
+  FOREIGN KEY (dungeonMasterID) REFERENCES DungeonMasters(DMID) ON DELETE CASCADE,
   PRIMARY KEY(gameID)
 );
 
@@ -37,7 +37,7 @@ CREATE TABLE Humanoids
   class varchar(255) NOT NULL,
   spouseID INT,
   hitpointVal INT,
-  FOREIGN KEY (gameID) REFERENCES Games(gameID),
+  FOREIGN KEY (gameID) REFERENCES Games(gameID) ON DELETE CASCADE,
   FOREIGN KEY (spouseID) REFERENCES Humanoids(humanoidID),
   PRIMARY KEY(humanoidID)
 );
