@@ -321,21 +321,26 @@ app.post('/Players/charSheet/:humanoidID', function(req, res){
   var sql = "UPDATE Humanoids SET firstName = (SELECT NULLIF(?, '')), lastName = (SELECT NULLIF(?, '')), gameID = ?, class = (SELECT NULLIF(?, '')), hitpointVal = ? WHERE humanoidID = ?";
   // console.log("humid is:", req.body.humid);
   var inserts = [req.body.firstname, req.body.lastname, req.body.gameName, req.body.class, req.body.hitpoints, req.body.humid];
-  sql = mysql.pool.query(sql, inserts, function(error, results, fields){
-    if(error){
-	if(error.sqlMessage == "Column 'firstName' cannot be null" || error.sqlMessage == "Column 'lastName' cannot be null" || error.sqlMessage == "Column 'class' cannot be null"){
-		res.redirect('/Players/charSheet/' + req.body.humid);
-	}
-	else{
-      		console.log(JSON.stringify(error));
-      		res.write(JSON.stringify(error));
-      		res.end();
-	}
-    }
-    else{
-      res.redirect('/Players/charSheet/' + req.body.humid);
-    }
-  });
+  if (req.body.firstname  == '' || req.body.lastname  == '' || req.body.class  == '')
+  {
+    console.log("Make sure values are not NULL");
+    res.write("Make sure values are not NULL");
+    res.end();
+  }
+  else
+  {
+    sql = mysql.pool.query(sql, inserts, function(error, results, fields){
+      console.log("ERROR MESSAGE: ", error);
+      if(error){
+        		console.log(JSON.stringify(error));
+        		res.write(JSON.stringify(error));
+        		res.end();
+  	   }
+      else{
+        res.redirect('/Players/charSheet/' + req.body.humid);
+      }
+    });
+  }
 });
 
 app.post('/Players/addItem', function(req, res){
