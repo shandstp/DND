@@ -9,6 +9,7 @@
         <th> Last Name </th>
         <th> Player Class </th>
         <th> Game </th>
+        <!-- <th> Spouse </th> -->
         <th> Hitpoints </th>
       </tr>
     </thead>
@@ -31,6 +32,13 @@
             {{/each}}
           </select>
         </td>
+        <!-- <td>
+          <select name="spouseID" id="spouse-selector">
+            {{#each player}}
+              <option value="{{humanoidID}}">{{firstName}} {{lastName}}</option>
+            {{/each}}
+          </select>
+        </td> -->
         <td>
           <input type="number" name="hitpoints" value="{{Player.hitpointVal}}">
         </td>
@@ -66,9 +74,6 @@
   <tbody>
   {{#each PlayerItem}}
     <tr>
-      <!-- <form action="/Players/delItem" method="post" style="padding: 50px"> -->
-      <!-- <input type="hidden" name="itemID" value="{{itemID}}">
-      <input type="hidden" name="humID" value="{{humanoidID}}"> -->
       <td>{{name}}</td>
       <td>{{effect}}</td>
       <td>{{type}}</td>
