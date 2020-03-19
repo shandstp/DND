@@ -10,7 +10,6 @@
         }
     </style>
 </head>
-<body>
   <form action="" id="filterByEffect">
 		<input type="text" placeholder="Example: stabbing" name="itemEffect">
 		<input type="submit" value="Filter By Effect">
@@ -43,10 +42,10 @@
           {{/if}}
           <td>{{type}}</td>
           <td>{{cost}} Moneyz</td>
-          <th><button type="button" onclick="getForm('modify')">Modify Item</button></th>
-          <th><button type="button" onclick="getForm('delete')">Delete Item</button></th>
+          <!-- <td><button onclick="window.location.href = '/Items/details/{{itemID}}';">Item Details</button></td> -->
+          <td><button type="button" onclick="getForm('delete')">Item Details</button></td>
+          <td><button type="button" onclick="getForm('delete')">Delete Item</button></td>
         </tr>
         {{/each}}
       </tbody>
 	</table>
-</body>

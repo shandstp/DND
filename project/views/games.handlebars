@@ -18,8 +18,13 @@
 
   <form action="/Games" method="post" id="gameCreate">
     <input type="text" placeholder="Name" name="name">
-    <input type="text" placeholder="DM Firstname" name="firstname">
-    <input type="text" placeholder="DM Lastname" name="lastname">
+    <select name="dmID">
+      {{#each DM}}
+        <option value="{{DMID}}">{{lastName}}, {{firstName}}</option>
+      {{/each}}
+    </select>
+    <!-- <input type="text" placeholder="DM Firstname" name="firstname">
+    <input type="text" placeholder="DM Lastname" name="lastname"> -->
     <input type="submit" value="Create Game">
   </form>
 
