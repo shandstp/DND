@@ -349,18 +349,18 @@ app.post('/Players/charSheet/:humanoidID', function(req, res){
   // console.log("Taking /Players/charSheet/:humanoidID post route");
   var mysql = req.app.get('mysql');
   var inputVals = [req.body.firstname, req.body.lastname, req.body.gameName, req.body.class, req.body.hitpoints];
-  var x;
-  for(x in inputVals){
-      if(x == ''){
-        x = NULL;
+  console.log(inputVals);
+  for(i = 0; i < 4; i++){
+      if(inputVals[i] == ''){
+        inputVals[i] = NULL;
       }
   }
-  if(req.body.spouseID == ''){
-    req.body.spouseID = NULL;
-  }
-  var sql = "UPDATE Humanoids SET firstName = (SELECT NULLIF(?, '')), lastName = (SELECT NULLIF(?, '')), gameID = ?, class = (SELECT NULLIF(?, '')), spouseID = ?, hitpointVal = ? WHERE humanoidID = ?";
+//  if(req.body.spouseID == ''){
+//    req.body.spouseID = NULL;
+//  }
+  var sql = "UPDATE Humanoids SET firstName = (SELECT NULLIF(?, '')), lastName = (SELECT NULLIF(?, '')), gameID = ?, class = (SELECT NULLIF(?, '')), hitpointVal = ? WHERE humanoidID = ?";
   // console.log("humid is:", req.body.humid);
-  var inserts = [req.body.firstname, req.body.lastname, req.body.gameName, req.body.class, req.body.spouseID, req.body.hitpoints, req.body.humid];
+  var inserts = [inputVals[0], inputVals[1], inputVals[2], inputVals[3], inputVals[4], req.body.humid];
   sql = mysql.pool.query(sql, inserts, function(error, results, fields){
     if(error){
       res.redirect('/Players/charSheet/' + req.body.humid);
